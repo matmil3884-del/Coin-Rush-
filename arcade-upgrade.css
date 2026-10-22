@@ -17,3 +17,11 @@ body{background:radial-gradient(ellipse at 15% 0%,#5930a6 0,#21104b 34%,#090d1b 
 .overlay h1{color:#ffdf70;text-shadow:0 0 10px #ffb52e88,0 0 28px #9333ea99;letter-spacing:1px}
 .overlay p{color:#e0dcff}
 .notice{background:#130e2d;border-color:#6d4bb4}
+
+/* Larger, more separated mobile controls for easier coin catching */
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}
+.controls button{min-height:64px;padding:14px 8px;border-radius:16px;font-size:16px;touch-action:none;user-select:none;-webkit-user-select:none;}
+#left,#right{font-size:17px;letter-spacing:.3px;background:linear-gradient(145deg,#493078,#1a3157);border:2px solid #ffcf45;color:#ffdf70;box-shadow:0 5px 0 #8b5e15,0 0 18px #ffcf4530;}
+#sound{grid-column:1 / -1;min-height:42px;padding:8px;font-size:13px;}
+.controls button:active{transform:translateY(2px) scale(.99);box-shadow:0 2px 0 #8b5e15;}
+@media (max-width:360px){.controls button{min-height:60px;font-size:15px}.stats{gap:5px}.stat{padding:7px 4px}.stat strong{font-size:18px}}
