@@ -15,7 +15,27 @@
 .rewardoffer{display:none;position:absolute;inset:0;background:#050817ef;z-index:5;align-items:center;justify-content:center;padding:18px}.rewardoffer.open{display:flex}.rewardcard{width:100%;max-width:290px;text-align:center;padding:22px 18px;background:linear-gradient(160deg,#28134d,#101d3a);border:1px solid #ffd166;border-radius:20px;box-shadow:0 0 30px #a855f755}.rewardcard h2{margin:8px 0;color:#ffd166}.rewardcard p{font-size:13px;line-height:1.5;color:#d6def7}.rewardcard .btn{width:100%;margin:8px 0}.rewardclose{width:100%;background:transparent;color:#c6d2f2;border:1px solid #465477;border-radius:10px;padding:10px;font-weight:800}.rewardcard small{display:block;margin-top:10px;color:#aab8db;font-size:10px}.instructions{margin:12px 2px;color:#aab8db;font-size:11px;line-height:1.5;text-align:center}.instructions b{color:#fff}
 </style><link rel="stylesheet" href="arcade-upgrade.css"></head>
 <body><main class="app">
-<header><div class="logo">🪙 COIN <span>RUSH</span></div><div class="tag">ARCADE • V2</div></header>
+<header><div class="logo" aria-label="Coin Rush logo">
+<svg class="brandmark" viewBox="0 0 330 76" role="img" aria-labelledby="coinrush-logo-title" xmlns="http://www.w3.org/2000/svg">
+<title id="coinrush-logo-title">Coin Rush</title>
+<defs>
+ <linearGradient id="goldFace" x1="0" y1="0" x2="0.15" y2="1"><stop stop-color="#fff6b0"/><stop offset=".28" stop-color="#ffdf55"/><stop offset=".58" stop-color="#ff9f0a"/><stop offset=".82" stop-color="#fff08a"/><stop offset="1" stop-color="#b85b00"/></linearGradient>
+ <linearGradient id="blueFace" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d5ffff"/><stop offset=".28" stop-color="#59f5ff"/><stop offset=".68" stop-color="#008dff"/><stop offset="1" stop-color="#1638b7"/></linearGradient>
+ <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff4a1"/><stop offset=".45" stop-color="#ffb72e"/><stop offset="1" stop-color="#00d9ff"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="2.4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<ellipse cx="165" cy="38" rx="158" ry="33" fill="#07122b" stroke="url(#ring)" stroke-width="2.4" filter="url(#glow)"/>
+<path d="M20 52 Q165 70 310 51" fill="none" stroke="#00d9ff" stroke-width="1.5" opacity=".85"/>
+<g font-family="system-ui, sans-serif" font-weight="1000" font-style="italic" text-anchor="middle" paint-order="stroke fill">
+ <text x="163" y="36" font-size="29" letter-spacing="1.2" fill="url(#goldFace)" stroke="#552500" stroke-width="5">COIN</text>
+ <text x="165" y="64" font-size="31" letter-spacing="1.4" fill="url(#blueFace)" stroke="#061c55" stroke-width="5">RUSH</text>
+ <text x="163" y="36" font-size="29" letter-spacing="1.2" fill="url(#goldFace)" stroke="#fff0a0" stroke-width=".6">COIN</text>
+ <text x="165" y="64" font-size="31" letter-spacing="1.4" fill="url(#blueFace)" stroke="#bafaff" stroke-width=".5">RUSH</text>
+</g>
+<g transform="translate(69 25)"><circle r="17" fill="#6c3500" stroke="#ffe58a" stroke-width="2.4"/><circle r="13.5" fill="url(#goldFace)" stroke="#ffb82e" stroke-width="1.5"/><text y="8" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="1000" font-size="25" fill="#8a4300">$</text></g>
+<path d="M270 12 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z" fill="#fff7bd" filter="url(#glow)"/>
+<circle cx="25" cy="19" r="2" fill="#8ffcff"/><circle cx="304" cy="55" r="2" fill="#ffd86b"/>
+</svg></div><div class="tag">ARCADE • V2</div></header>
 <section class="stats"><div class="stat"><small>Score</small><strong id="score">0</strong></div><div class="stat"><small>Wallet</small><strong id="wallet">0</strong></div><div class="stat"><small>Best</small><strong id="best">0</strong></div></section><div id="levelbar" style="display:flex;justify-content:space-between;align-items:center;margin:0 2px 9px;padding:8px 12px;border:1px solid #51428c;border-radius:11px;background:linear-gradient(90deg,#211447,#10233e);font-size:12px"><strong id="levelname" style="color:#d8c6ff">🌌 LEVEL 1: SPACE CADET</strong><span id="levelgoal" style="color:#aab8db">Next level: 100 points</span></div>
 <div class="stage"><canvas id="game" width="420" height="600" aria-label="Coin Rush game"></canvas>
 <div class="overlay" id="overlay"><div style="font-size:48px;margin-bottom:8px">🪙</div><h1 id="headline">COIN RUSH</h1><p id="message">Catch glowing coins, dodge bombs, complete your daily mission, and unlock new looks.</p><button class="btn" id="start">PLAY NOW</button><div class="hint">Tap left/right • Keyboard: ← →</div></div><div id="rewardoffer" class="rewardoffer"><div class="rewardcard"><div style="font-size:38px">🎁</div><h2>FLOATING BONUS!</h2><p id="rewardmessage">A bonus pickup! Claim 50 test coins.</p><button class="btn" id="rewarddemo">DEMO: CLAIM +50</button><button class="rewardclose" id="rewardclose">NOT NOW</button><small>Test mode only — no real ad plays yet.</small></div></div></div>
