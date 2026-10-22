@@ -33,6 +33,8 @@ jobs:
         run: |
           mkdir -p www
           cp index.html www/index.html
+          cp arcade-upgrade.css www/arcade-upgrade.css
+          cp arcade-upgrade.js www/arcade-upgrade.js
           npm init -y
           npm install @capacitor/core @capacitor/cli @capacitor/android
           cat > capacitor.config.json <<'EOF'
@@ -45,6 +47,12 @@ jobs:
 
       - name: Generate Android project
         run: npx cap add android
+
+      - name: Verify Android launcher is configured
+        run: |
+          grep -q 'android.intent.action.MAIN' android/app/src/main/AndroidManifest.xml
+          grep -q 'android.intent.category.LAUNCHER' android/app/src/main/AndroidManifest.xml
+          grep -q 'MainActivity' android/app/src/main/AndroidManifest.xml
 
       - name: Sync game files
         run: npx cap sync android
