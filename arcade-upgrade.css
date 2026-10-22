@@ -1,0 +1,19 @@
+/* Coin Rush visual upgrade: bright arcade + polished gold */
+:root{color-scheme:dark;--bg:#10072b;--panel:#1b1240;--cyan:#54f7ff;--gold:#ffcf45;--pink:#ff4f9a;--muted:#c5c1f3}
+body{background:radial-gradient(ellipse at 15% 0%,#5930a6 0,#21104b 34%,#090d1b 78%)!important}
+.logo{font-size:27px;text-shadow:0 0 12px #ffcf45,0 0 25px #a855f7}.logo span{color:#ffcf45}
+.tag{background:linear-gradient(90deg,#6029a6,#174f76);border-color:#a78bfa;color:#fff}
+.stat{background:linear-gradient(145deg,#291957ed,#101b39ed);border:1px solid #8b5cf6;box-shadow:inset 0 1px #ffffff18,0 5px 18px #6d28d933}
+.stat strong{color:#ffdf70;text-shadow:0 0 12px #ffb70055}
+.stage{border:2px solid #a78bfa;box-shadow:0 0 0 2px #ffcf4530,0 0 32px #7c3aed55,0 18px 55px #0009}
+.btn{background:linear-gradient(110deg,#ffcf45,#ff9f43 42%,#ff5f9e 100%);color:#25103b;box-shadow:0 0 0 2px #fff3,0 7px 25px #ffb52e66;text-transform:uppercase;letter-spacing:.6px}
+.controls button,.tab{background:linear-gradient(145deg,#28184d,#111d3d);border-color:#6d4bb4;box-shadow:inset 0 1px #ffffff12}
+.controls button:active,.tab:active,.btn:active{transform:scale(.97)}
+.tab.active{border-color:#ffcf45;color:#ffdf70;background:linear-gradient(135deg,#493078,#1c3156);box-shadow:0 0 16px #ffcf4533}
+.panel{background:linear-gradient(145deg,#1d1640,#101a35);border-color:#6d4bb4;box-shadow:0 10px 28px #0003}
+.itemicon{background:radial-gradient(circle at 30% 25%,#5d3d94,#172345);border:1px solid #8b5cf6;box-shadow:inset 0 1px #fff2}
+.itemrow button{background:linear-gradient(110deg,#6342a0,#234c78);border-color:#a78bfa}
+.overlay{background:radial-gradient(ellipse at center,#24134feF,#070b1cf5)}
+.overlay h1{color:#ffdf70;text-shadow:0 0 10px #ffb52e88,0 0 28px #9333ea99;letter-spacing:1px}
+.overlay p{color:#e0dcff}
+.notice{background:#130e2d;border-color:#6d4bb4}
