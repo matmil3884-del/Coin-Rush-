@@ -21,6 +21,22 @@
     @media(prefers-reduced-motion:reduce){#game,.itemicon:after{animation:none}}
   `;
   document.head.appendChild(style);
+
+  /* Cinematic realism pass: layered planetary atmosphere, vignette, filmic lighting. */
+  style.textContent += `
+    .stage{background:#02050d!important;border-color:#9bb6df!important;box-shadow:0 0 0 1px #d5e7ff25,0 0 38px #2c6db455,0 22px 60px #000d!important}
+    body{background:radial-gradient(ellipse at 50% -15%,#263b61 0%,#0a1223 42%,#03060d 100%)!important}
+    .logo{text-shadow:0 0 16px #8ecbff55!important}
+    .stat{background:linear-gradient(145deg,#17263bdc,#070d18ee)!important;border-color:#6f91b755!important}
+    .stat strong{color:#d6e8ff!important;text-shadow:0 0 12px #76baff44!important}
+    .btn{background:linear-gradient(135deg,#e5f4ff,#75bfff 52%,#326fbd)!important;color:#06101e!important;box-shadow:0 0 24px #69baff40!important}
+    .controls button,.tab{background:linear-gradient(145deg,#182a40,#080f1b)!important;border-color:#54789c!important}
+    #left,#right{background:linear-gradient(145deg,#294968,#10253c)!important;border-color:#b9dcff!important;color:#eff8ff!important;box-shadow:0 5px 0 #091522,0 0 20px #69baff20!important}
+    .panel{background:linear-gradient(145deg,#14243a,#080f1b)!important;border-color:#476583!important}
+    .itemicon{background:radial-gradient(circle at 30% 25%,#45627c,#101a2a)!important;border-color:#779bb8!important}
+    .stage:before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 50% 48%,transparent 38%,#02050d25 72%,#02050d9c 100%),linear-gradient(180deg,#b8e2ff0a,transparent 25%,transparent 72%,#02050d55)}
+    .cr-vfx{mix-blend-mode:screen;opacity:.82}
+  `;
   const fx=document.createElement('canvas');
   fx.className='cr-vfx';fx.setAttribute('aria-hidden','true');stage.appendChild(fx);
   const c=fx.getContext('2d',{alpha:true});
