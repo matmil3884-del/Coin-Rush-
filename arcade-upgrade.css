@@ -33,3 +33,10 @@ body{background:radial-gradient(ellipse at 15% 0%,#5930a6 0,#21104b 34%,#090d1b 
 #joybase{position:absolute;inset:0;border-radius:50%;border:2px solid #ffdf70;background:radial-gradient(circle at 35% 25%,#9b76c655,#201347dd 65%,#080d20ee);box-shadow:inset 0 0 18px #0008,0 0 22px #ffcf4533;touch-action:none}
 #joyknob{position:absolute;width:52px;height:52px;left:calc(50% - 26px);top:calc(50% - 26px);border-radius:50%;border:2px solid #fff2a8;background:radial-gradient(circle at 32% 25%,#fff4bb,#ffcf45 45%,#d87911);box-shadow:0 4px 12px #0009,0 0 15px #ffcf4577;pointer-events:none}
 @media(max-width:360px){#joystick{width:116px;height:116px}#joyknob{width:46px;height:46px;left:calc(50% - 23px);top:calc(50% - 23px)}}
+
+/* Premium ship-icon hangar and responsive visual polish */
+.itemicon{font-size:27px;text-shadow:0 0 12px #a78bfa,0 0 22px #5df4ff55;flex:none}
+.itemrow{transition:transform .16s ease,border-color .16s ease}
+.itemrow:has([data-skin]){border-radius:12px;padding:10px 8px}
+.itemrow:has(button[data-skin]:not(:disabled)){background:linear-gradient(100deg,#ffffff05,#a78bfa08)}
+#game{image-rendering:auto}
