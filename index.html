@@ -13,7 +13,7 @@
 .controls{display:flex;gap:7px;margin-top:9px}.controls button,.tab{flex:1;border:1px solid #29365a;background:#121a31;color:#dbe5ff;padding:11px 5px;border-radius:12px;font-weight:800;cursor:pointer}.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.tab.active{border-color:var(--cyan);color:var(--cyan);background:#152541}
 .panel{display:none;margin-top:10px;background:#121a31;border:1px solid #29365a;border-radius:16px;padding:14px}.panel.active{display:block}.panel h2{font-size:16px;margin:0 0 8px}.panel p,.small{font-size:12px;line-height:1.5;color:var(--muted)}.itemrow{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid #29365a}.itemrow:first-of-type{border-top:0}.itemicon{width:42px;height:42px;border-radius:12px;background:#1b294a;display:grid;place-items:center;font-size:24px}.itemdesc{flex:1}.itemdesc strong{display:block;font-size:13px}.itemdesc small{color:#aab8db}.itemrow button{background:#24385c;color:#fff;border:1px solid #3c5580;border-radius:9px;padding:8px 10px;font-weight:800}.itemrow button:disabled{opacity:.45}.pill{display:inline-block;border:1px solid #34466f;border-radius:99px;padding:4px 8px;font-size:10px;color:#b9c9ee}.notice{padding:9px 10px;border-radius:10px;background:#0c1429;border:1px solid #29365a;color:#c5d4f8;font-size:11px;line-height:1.45;margin-top:10px}
 .instructions{margin:12px 2px;color:#aab8db;font-size:11px;line-height:1.5;text-align:center}.instructions b{color:#fff}
-</style></head>
+</style><link rel="stylesheet" href="arcade-upgrade.css"></head>
 <body><main class="app">
 <header><div class="logo">🪙 COIN <span>RUSH</span></div><div class="tag">ARCADE • V2</div></header>
 <section class="stats"><div class="stat"><small>Score</small><strong id="score">0</strong></div><div class="stat"><small>Wallet</small><strong id="wallet">0</strong></div><div class="stat"><small>Best</small><strong id="best">0</strong></div></section>
@@ -51,4 +51,4 @@ $('sound').onclick=()=>{sound=!sound;$('sound').textContent=sound?'🔊 SOUND':'
 $('rewardAd').onclick=()=>{save.wallet+=25;persist();$('shopnote').textContent='Demo reward added. In production, only grant this after the ad SDK confirms a completed rewarded ad.';beep(800)};
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===b.dataset.panel))});
 dailyReset();renderUI();bg();drawPlayer();for(let i=0;i<4;i++)drawItem({x:70+i*90,y:100+(i%2)*40,r:12,bomb:i===2,spin:i});
-</script></body></html>
+</script><script src="arcade-upgrade.js"></script></body></html>
