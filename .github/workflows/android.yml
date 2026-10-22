@@ -34,6 +34,7 @@ jobs:
           cp index.html www/index.html
           cp arcade-upgrade.css www/arcade-upgrade.css
           cp arcade-upgrade.js www/arcade-upgrade.js
+          cp premium-effects.js www/premium-effects.js
           npm init -y
           npm install @capacitor/core @capacitor/cli @capacitor/android
           cat > capacitor.config.json <<'EOF'
