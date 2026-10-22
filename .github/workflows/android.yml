@@ -1,4 +1,3 @@
-
 name: Coin Rush Android Build
 
 on:
@@ -48,6 +47,50 @@ jobs:
       - name: Generate Android project
         run: npx cap add android
 
+      - name: Configure release signing when secrets are available
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -z "$ANDROID_KEYSTORE_BASE64" ] || [ -z "$ANDROID_KEYSTORE_PASSWORD" ] || [ -z "$ANDROID_KEY_ALIAS" ] || [ -z "$ANDROID_KEY_PASSWORD" ]; then
+            echo "::warning::Release signing secrets are not all configured. The AAB will be unsigned and is not Play Store upload-ready."
+            exit 0
+          fi
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/coin-rush-upload.jks
+          export ANDROID_KEYSTORE_PASSWORD ANDROID_KEY_ALIAS ANDROID_KEY_PASSWORD
+          python3 <<'PY'
+          import os
+          from pathlib import Path
+
+          path = Path("android/app/build.gradle")
+          text = path.read_text()
+          signing = """
+              signingConfigs {
+                  release {
+                      storeFile file("coin-rush-upload.jks")
+                      storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                      keyAlias System.getenv("ANDROID_KEY_ALIAS")
+                      keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+                  }
+              }
+          """
+          if "signingConfigs {" not in text:
+              text = text.replace("    buildTypes {", signing + "\n    buildTypes {", 1)
+          release_block = text.find("release {", text.find("buildTypes {"))
+          if release_block < 0:
+              raise SystemExit("Could not locate release buildType in android/app/build.gradle")
+          close = text.find("\n        }", release_block)
+          if close < 0:
+              raise SystemExit("Could not locate end of release buildType")
+          block = text[release_block:close]
+          if "signingConfig" not in block:
+              text = text[:close] + '\n            signingConfig signingConfigs.release' + text[close:]
+          path.write_text(text)
+          PY
+          echo "Release signing configured."
+
       - name: Verify Android launcher is configured
         run: |
           grep -q 'android.intent.action.MAIN' android/app/src/main/AndroidManifest.xml
@@ -64,6 +107,20 @@ jobs:
 
       - name: Build Play Store AAB
         run: android/gradlew -p android bundleRelease
+
+      - name: Verify AAB signing status
+        run: |
+          AAB="android/app/build/outputs/bundle/release/app-release.aab"
+          if [ ! -f "$AAB" ]; then
+            echo "::error::AAB was not generated."
+            exit 1
+          fi
+          if [ -f android/app/coin-rush-upload.jks ]; then
+            jarsigner -verify "$AAB" >/dev/null
+            echo "AAB signature verification passed."
+          else
+            echo "::warning::AAB built without release signing. Configure the four ANDROID_* repository secrets before Play Store upload."
+          fi
 
       - name: Upload APK and AAB
         uses: actions/upload-artifact@v4
