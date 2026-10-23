@@ -48,6 +48,46 @@ jobs:
       - name: Generate Android project
         run: npx cap add android
 
+
+      - name: Apply designed Coin Rush launcher icon
+        run: |
+          python3 -m pip install --quiet pillow
+          python3 <<'PY'
+          from PIL import Image, ImageDraw, ImageFont
+          from pathlib import Path
+          import math
+          root = Path("android/app/src/main/res")
+          sizes = {"mipmap-mdpi":48,"mipmap-hdpi":72,"mipmap-xhdpi":96,"mipmap-xxhdpi":144,"mipmap-xxxhdpi":192}
+          for folder, size in sizes.items():
+              out = root / folder
+              out.mkdir(parents=True, exist_ok=True)
+              im = Image.new("RGBA", (size,size), (7,14,38,255))
+              px = im.load()
+              for y in range(size):
+                  for x in range(size):
+                      dx=x-size*.5; dy=y-size*.5
+                      glow=max(0,1-math.sqrt(dx*dx+dy*dy)/(size*.72))
+                      px[x,y]=(int(8+12*glow),int(16+32*glow),int(43+70*glow),255)
+              d=ImageDraw.Draw(im)
+              margin=size*.09
+              d.ellipse((margin,margin,size-margin,size-margin), fill=(12,27,64,255), outline=(0,224,255,255), width=max(1,size//32))
+              d.ellipse((size*.19,size*.17,size*.81,size*.79), fill=(120,58,0,255), outline=(255,221,107,255), width=max(1,size//22))
+              d.ellipse((size*.24,size*.22,size*.76,size*.74), fill=(255,190,37,255), outline=(255,246,168,255), width=max(1,size//30))
+              try: font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",int(size*.43))
+              except: font=ImageFont.load_default()
+              box=d.textbbox((0,0),"$",font=font); tw=box[2]-box[0]; th=box[3]-box[1]
+              d.text(((size-tw)/2,(size-th)/2-box[1]-size*.01),"$",font=font,fill=(103,47,0,255),stroke_width=max(0,size//96),stroke_fill=(255,239,143,255))
+              # small cyan speed streaks evoke the COIN RUSH wordmark
+              d.line((size*.19,size*.82,size*.81,size*.82),fill=(69,245,255,255),width=max(1,size//28))
+              d.line((size*.30,size*.88,size*.70,size*.88),fill=(255,202,65,255),width=max(1,size//40))
+              im.save(out/"ic_launcher.png")
+              im.save(out/"ic_launcher_round.png")
+          # Remove adaptive-icon XML so Android uses the matching designed PNGs at every density.
+          for name in ("ic_launcher.xml","ic_launcher_round.xml"):
+              p=root/"mipmap-anydpi-v26"/name
+              if p.exists(): p.unlink()
+          PY
+
       - name: Configure release signing when secrets are available
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
