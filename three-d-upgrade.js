@@ -136,11 +136,34 @@
     }
     ship.position.z = 1;
     ship.children.forEach((obj) => { if (obj.geometry && obj.geometry.type === 'ConeGeometry' && obj.material && obj.material.transparent) obj.scale.y = .8 + .25 * Math.sin(tick * 10); });
+    // Render actual falling game items in 3D, rather than showing only a decorative coin row.
+    // The original gameplay loop still owns movement, scoring and collision detection.
+    const liveItems = typeof items !== 'undefined' && typeof running !== 'undefined' && running ? items : null;
     coins.forEach((coin, i) => {
+      const item = liveItems && liveItems[i];
+      coin.visible = !liveItems || !!item;
+      if (item) {
+        coin.position.x = ((item.x / 420) - .5) * 12 * w;
+        coin.position.y = (0.5 - item.y / 600) * 17 * h;
+        coin.position.z = -1.2;
+        coin.scale.setScalar(Math.max(.45, Math.min(1.45, (item.r || 12) / 12)));
+        coin.rotation.y = tick * (1.1 + i * .08);
+        coin.rotation.x = Math.sin(tick * .8 + coin.userData.phase) * .18;
+        coin.rotation.z = Math.sin(tick + i) * .08;
+        // Recolor the 3D pickup to match its real gameplay type.
+        const color = item.bomb ? 0xff397e : item.reward ? 0xc56bff : item.special ? 0x35eaff : 0xffbf35;
+        coin.children.forEach((part) => {
+          if (part.material && part.material.color && part.geometry && part.geometry.type !== 'TorusGeometry') {
+            part.material.color.setHex(color);
+            if (part.material.emissive) part.material.emissive.setHex(item.bomb ? 0x650020 : item.reward ? 0x401060 : item.special ? 0x004060 : 0x6b3000);
+          }
+        });
+      } else if (!liveItems) {
+        coin.position.y = coin.userData.baseY + Math.sin(tick * 1.5 + coin.userData.phase) * .22;
+        coin.position.z = -1.5 - (i % 3) * .3;
+        coin.scale.setScalar(1);
+      }
       coin.rotation.y = tick * (1.1 + i * .08);
-      coin.rotation.x = Math.sin(tick * .8 + coin.userData.phase) * .18;
-      coin.position.y = coin.userData.baseY + Math.sin(tick * 1.5 + coin.userData.phase) * .22;
-      coin.rotation.z = Math.sin(tick + i) * .08;
     });
     stars.rotation.y = Math.sin(tick * .04) * .035;
     stars.position.y = (tick * .08) % 2;
