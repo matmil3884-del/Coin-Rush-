@@ -163,5 +163,5 @@ $('rewarddemo').onclick=()=>{if(!rewardReady)return;save.wallet+=50;rewardReady=
 $('rewardclose').onclick=()=>{rewardReady=false;$('rewardoffer').classList.remove('open');running=true;requestAnimationFrame(loop)};
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===b.dataset.panel))});
 dailyReset();renderUI();bg();drawPlayer();for(let i=0;i<4;i++)drawItem({x:70+i*90,y:100+(i%2)*40,r:12,bomb:i===2,spin:i});
-</script><script src="arcade-upgrade.js"></script><script src="premium-effects.js"></script>
+</script><script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" crossorigin="anonymous"></script><script src="arcade-upgrade.js"></script><script src="premium-effects.js"></script><script src="three-d-upgrade.js"></script>
 </body></html>
