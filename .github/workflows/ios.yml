@@ -1,0 +1,75 @@
+name: Coin Rush iOS Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build-ios:
+    runs-on: macos-15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Prepare web app and Capacitor
+        run: |
+          mkdir -p www
+          cp index.html www/index.html
+          cp arcade-upgrade.css www/arcade-upgrade.css
+          cp arcade-upgrade.js www/arcade-upgrade.js
+          cp premium-effects.js www/premium-effects.js
+          cp three-d-upgrade.js www/three-d-upgrade.js
+          npm init -y
+          npm install @capacitor/core @capacitor/cli @capacitor/ios
+          cat > capacitor.config.json <<'EOF'
+          {
+            "appId": "com.coinrush.game",
+            "appName": "Coin Rush",
+            "webDir": "www",
+            "ios": {
+              "contentInset": "automatic",
+              "preferredContentMode": "mobile"
+            }
+          }
+          EOF
+
+      - name: Generate iOS project
+        run: npx cap add ios
+
+      - name: Sync game files
+        run: npx cap sync ios
+
+      - name: Build for iPhone simulator
+        run: |
+          xcodebuild \
+            -workspace ios/App/App.xcworkspace \
+            -scheme App \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Package simulator app
+        run: |
+          APP_PATH="build/DerivedData/Build/Products/Debug-iphonesimulator/App.app"
+          test -d "$APP_PATH"
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" coin-rush-ios-simulator.zip
+
+      - name: Upload iOS simulator build
+        uses: actions/upload-artifact@v4
+        with:
+          name: coin-rush-ios-simulator
+          path: coin-rush-ios-simulator.zip
+          if-no-files-found: error
